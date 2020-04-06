@@ -8,20 +8,21 @@ struct Solution {}
 impl Solution {
     pub fn single_number(nums: Vec<i32>) -> i32 {
         let mut hm: HashMap<i32, u32> = HashMap::new();
-        for num in nums {
+
+        nums.iter().for_each(|num| {
             if let Some(count) = hm.get_mut(&num) {
                 *count += 1;
             } else {
-                hm.insert(num, 0);
-            };
-        }
-
-        for (num, count) in hm.iter() {
-            if count == &0 {
-                return *num;
+                hm.insert(*num, 0);
             }
+        });
+
+        hm.retain(|_, v| v == &0);
+        if let Some(num) = hm.keys().cloned().collect::<Vec<i32>>().pop() {
+            num
+        } else {
+            panic!("no duplicate values in vec");
         }
-        panic!("no duplicate values in vec");
     }
 }
 
