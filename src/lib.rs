@@ -1,5 +1,5 @@
 #[cfg(test)]
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 #[cfg(test)]
 struct Solution {}
@@ -7,22 +7,21 @@ struct Solution {}
 #[cfg(test)]
 impl Solution {
     pub fn single_number(nums: Vec<i32>) -> i32 {
-        let mut set: HashSet<i32> = HashSet::new();
-        let mut single: Option<i32> = None;
-        for n in nums {
-            single = match set.get(&n) {
-                Some(_) => continue,
-                None => {
-                    set.insert(n);
-                    Some(n)
-                }
+        let mut hm: HashMap<i32, u32> = HashMap::new();
+        for num in nums {
+            if let Some(count) = hm.get_mut(&num) {
+                *count += 1;
+            } else {
+                hm.insert(num, 0);
             };
         }
 
-        match single {
-            Some(n) => n,
-            None => panic!("no duplicate values in vec"),
+        for (num, count) in hm.iter() {
+            if count == &0 {
+                return *num;
+            }
         }
+        panic!("no duplicate values in vec");
     }
 }
 
