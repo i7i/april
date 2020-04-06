@@ -1,28 +1,10 @@
 #[cfg(test)]
-use std::collections::HashMap;
-
-#[cfg(test)]
 struct Solution {}
 
 #[cfg(test)]
 impl Solution {
     pub fn single_number(nums: Vec<i32>) -> i32 {
-        let mut hm: HashMap<i32, u32> = HashMap::new();
-
-        nums.iter().for_each(|num| {
-            if let Some(count) = hm.get_mut(&num) {
-                *count += 1;
-            } else {
-                hm.insert(*num, 0);
-            }
-        });
-
-        hm.retain(|_, v| v == &0);
-        if let Some(num) = hm.keys().cloned().collect::<Vec<i32>>().pop() {
-            num
-        } else {
-            panic!("no duplicate values in vec");
-        }
+        nums.iter().fold(0, |res, num| res ^ num)
     }
 }
 
